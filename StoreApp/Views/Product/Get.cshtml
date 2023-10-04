@@ -1,0 +1,17 @@
+@model Product
+
+<div class="card w-100">
+    <img class="bd-placeholder-img card-img-top w-25 h-auto" src="~/images/default.jpg" alt="@Model.ProductName"></img>
+    <div class="card-body">
+        <h5 class="card-title">@Model.ProductName</h5>
+        <p class="card-text">@Model.Price.ToString("c")</p>
+        <a class="btn btn-warning" asp-action="Index" asp-controller="Home">
+            <i class="fa fa-home" aria-hidden="true"></i>
+            Home
+        </a>
+        <a class="btn btn-outline-warning" asp-action="Index" asp-controller="Product">
+            <i class="fa fa-list" aria-hidden="true"></i>
+            Products
+        </a>
+    </div>
+</div>

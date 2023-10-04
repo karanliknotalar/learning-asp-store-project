@@ -1,0 +1,13 @@
+@model IQueryable<Product>
+
+<div class="row">
+    @foreach (Product product in Model)
+    {
+        <partial name="_ProductCard" model="@product" />
+    }
+    @foreach (Product product in Model)
+    {
+        <partial name="_ProductCard" model="@product" />
+    }
+       
+</div>

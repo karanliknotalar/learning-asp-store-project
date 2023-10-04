@@ -1,0 +1,14 @@
+@model Product
+
+<div class="col-sm-12 col-md-4 col-xl-3 mt-3 mb-2">
+    <div class="card w-100">
+        <img class="bd-placeholder-img card-img-top" src="~/images/default.jpg" alt="@Model.ProductName"></img>
+        <div class="card-body">
+            <h5 class="card-title">@Model.ProductName</h5>
+            <p class="card-text">@Model.Price.ToString("c")</p>
+            <a class="btn btn-warning" asp-action="Get" asp-controller="Product" asp-route-id="@Model.ProductId">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                Get Details</a>
+        </div>
+    </div>
+</div>
