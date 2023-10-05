@@ -5,11 +5,13 @@ namespace Repositories;
 
 public class RepositoryContext : DbContext
 {
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Category> Categories { get; set; }
+    public DbSet<Product>? Products { get; set; }
+    public DbSet<Category>? Categories { get; set; }
 
     public RepositoryContext(DbContextOptions<RepositoryContext> options)
-        : base(options) { }
+        : base(options)
+    {
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,7 +31,7 @@ public class RepositoryContext : DbContext
             .Entity<Category>()
             .HasData(
                 new Category() { CategoryId = 1, CategoryName = "Book" },
-                new Category() { CategoryId = 2, CategoryName = "Electonic" }
+                new Category() { CategoryId = 2, CategoryName = "Electronic" }
             );
     }
 }

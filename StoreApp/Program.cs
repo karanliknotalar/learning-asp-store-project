@@ -9,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<RepositoryContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("sqlconnection"),
-    b => b.MigrationsAssembly("StoreApp"));
+    options.UseSqlite(builder.Configuration.GetConnectionString("connection"),
+        b => b.MigrationsAssembly("StoreApp"));
 });
 
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();

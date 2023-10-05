@@ -17,7 +17,5 @@ namespace Services
         {
             return _manager.Category.FindAll(trackChanges);
         }
-
-        
     }
 }
