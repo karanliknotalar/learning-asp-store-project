@@ -15,4 +15,7 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
         return FindByCondition(p => p.ProductId.Equals(id), trackChanges);
     }
+    public void CreateProduct(Product product) => Create(product);
+
+    public void DeleteProduct(Product product) => Delete(product);
 }

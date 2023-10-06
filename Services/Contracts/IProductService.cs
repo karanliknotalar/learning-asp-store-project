@@ -6,6 +6,7 @@ namespace Services.Contracts
     {
         IEnumerable<Product> GetAllProduct(bool trackChanges);
         Product? GetOneProduct(int id, bool trackChanges);
-
+        void CreateProduct(Product product);
+        void DeleteProduct(Product product);
     }
 }

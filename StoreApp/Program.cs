@@ -27,6 +27,11 @@ app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.MapControllerRoute("default", "{Controller=Home}/{Action=Index}/{id?}");
+app.UseEndpoints(endpoint =>
+{
+    endpoint.MapAreaControllerRoute(name: "Admin", areaName: "Admin",
+        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+    endpoint.MapControllerRoute("default", "{Controller=Home}/{Action=Index}/{id?}");
+});
 
 app.Run();
