@@ -34,6 +34,21 @@ public class ProductController : Controller
         return RedirectToAction("Index");
     }
 
+    public IActionResult Update([FromRoute(Name = "id")] int id)
+    {
+        var product = _manager.ProductServices.GetOneProduct(id, false);
+        return View(product);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult Update(Product product)
+    {
+        if (!ModelState.IsValid) return View();
+
+        _manager.ProductServices.UpdateProduct(product);
+        return RedirectToAction("Index");
+    }
+
     public IActionResult Delete([FromRoute(Name = "id")] int id)
     {
         var product = _manager.ProductServices.GetOneProduct(id, false);
@@ -41,6 +56,7 @@ public class ProductController : Controller
         {
             _manager.ProductServices.DeleteProduct(product);
         }
+
         return RedirectToAction("Index");
     }
 }

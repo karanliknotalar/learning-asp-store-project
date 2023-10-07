@@ -18,7 +18,7 @@ namespace Services
             return _manager.Product.GetAllProducts(trackChanges);
         }
 
-        public Product? GetOneProduct(int id, bool trackChanges)
+        public Product GetOneProduct(int id, bool trackChanges)
         {
             return _manager.Product.GetOneProduct(id, trackChanges) ?? throw new Exception("Product not found!");
         }
@@ -33,6 +33,20 @@ namespace Services
         {
             _manager.Product.DeleteProduct(product);
             _manager.Save();
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            _manager.Product.UpdateProduct(product);
+            _manager.Save();
+
+            // var model = _manager.Product.GetOneProduct(product.ProductId, true);
+            // if (model != null)
+            // {
+            //     model.Price = product.Price;
+            //     model.ProductName = product.ProductName;
+            // }
+            // _manager.Save();
         }
     }
 }
