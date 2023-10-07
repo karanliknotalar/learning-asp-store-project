@@ -1,5 +1,7 @@
-﻿using Entities.Models;
+﻿using Entities.Dtos;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Services.Contracts;
 
 namespace StoreApp.Areas.Admin.Controllers;
@@ -22,21 +24,38 @@ public class ProductController : Controller
 
     public IActionResult Create()
     {
+        // ViewBag.Categories = _manager.CategoryServices.GetAllCategories(false);
+        var categories = _manager.CategoryServices.GetAllCategories(false);
+        ViewBag.Categories = new SelectList(
+            categories,
+            "CategoryId",
+            "CategoryName",
+            "1"
+        );
         return View();
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult Create([FromForm] Product product)
+    public IActionResult Create([FromForm] ProductDtoForInsertion productDto)
     {
         if (!ModelState.IsValid) return View();
 
-        _manager.ProductServices.CreateProduct(product);
+        _manager.ProductServices.CreateProduct(productDto);
         return RedirectToAction("Index");
     }
 
     public IActionResult Update([FromRoute(Name = "id")] int id)
     {
         var product = _manager.ProductServices.GetOneProduct(id, false);
+        // ViewBag.Categories = _manager.CategoryServices.GetAllCategories(false);
+        var categories = _manager.CategoryServices.GetAllCategories(false);
+        if (product == null) throw new Exception("Product not found!");
+        ViewBag.Categories = new SelectList(
+            categories,
+            "CategoryId",
+            "CategoryName",
+            product.CategoryId
+        );
         return View(product);
     }
 

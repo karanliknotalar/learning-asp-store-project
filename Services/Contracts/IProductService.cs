@@ -1,3 +1,4 @@
+using Entities.Dtos;
 using Entities.Models;
 
 namespace Services.Contracts
@@ -6,7 +7,7 @@ namespace Services.Contracts
     {
         IEnumerable<Product> GetAllProduct(bool trackChanges);
         Product? GetOneProduct(int id, bool trackChanges);
-        void CreateProduct(Product product);
+        void CreateProduct(ProductDtoForInsertion productDto);
         void DeleteProduct(Product product);
         void UpdateProduct(Product product);
     }
