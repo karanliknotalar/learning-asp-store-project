@@ -24,7 +24,15 @@ namespace Services
 
         public Product GetOneProduct(int id, bool trackChanges)
         {
-            return _manager.Product.GetOneProduct(id, trackChanges) ?? throw new Exception("Product not found!");
+            return _manager.Product.GetOneProduct(id, trackChanges)
+                   ?? throw new Exception("Product not found!");
+        }
+
+        public ProductDtoForUpdate? GetOneProductUpdate(int id, bool trackChanges)
+        {
+            var product = _manager.Product.GetOneProduct(id, trackChanges)
+                          ?? throw new Exception("Product not found!");
+            return _mapper.Map<ProductDtoForUpdate>(product);
         }
 
         public void CreateProduct(ProductDtoForInsertion productDto)
@@ -40,8 +48,9 @@ namespace Services
             _manager.Save();
         }
 
-        public void UpdateProduct(Product product)
+        public void UpdateProduct(ProductDtoForInsertion productDto)
         {
+            var product = _mapper.Map<Product>(productDto);
             _manager.Product.UpdateProduct(product);
             _manager.Save();
 

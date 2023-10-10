@@ -13,14 +13,14 @@ public class ProductConfig : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Price).IsRequired();
 
         builder.HasData(
-            new Product() { ProductId = 1, CategoryId = 2, ProductName = "Asus Computer", Price = 11_000 },
-            new Product() { ProductId = 2, CategoryId = 2, ProductName = "Hp Notebook", Price = 12_000 },
-            new Product() { ProductId = 3, CategoryId = 2, ProductName = "Iphone 13", Price = 13_000 },
-            new Product() { ProductId = 4, CategoryId = 2, ProductName = "Iphone 14", Price = 14_000 },
-            new Product() { ProductId = 5, CategoryId = 2, ProductName = "Iphone 15", Price = 15_000 },
-            new Product() { ProductId = 6, CategoryId = 2, ProductName = "Iphone 16", Price = 16_000 },
-            new Product() { ProductId = 7, CategoryId = 1, ProductName = "Angry", Price = 150 },
-            new Product() { ProductId = 8, CategoryId = 1, ProductName = "Black And Dark", Price = 250 }
+            new Product() { ProductId = 1, CategoryId = 2, ProductName = "Asus Computer", ImageUrl = "/images/default.jpg", Price = 11_000 },
+            new Product() { ProductId = 2, CategoryId = 2, ProductName = "Hp Notebook", ImageUrl = "/images/default.jpg", Price = 12_000 },
+            new Product() { ProductId = 3, CategoryId = 2, ProductName = "Iphone 13", ImageUrl = "/images/default.jpg", Price = 13_000 },
+            new Product() { ProductId = 4, CategoryId = 2, ProductName = "Iphone 14", ImageUrl = "/images/default.jpg", Price = 14_000 },
+            new Product() { ProductId = 5, CategoryId = 2, ProductName = "Iphone 15", ImageUrl = "/images/default.jpg", Price = 15_000 },
+            new Product() { ProductId = 6, CategoryId = 2, ProductName = "Iphone 16", ImageUrl = "/images/default.jpg", Price = 16_000 },
+            new Product() { ProductId = 7, CategoryId = 1, ProductName = "Angry", ImageUrl = "/images/default.jpg", Price = 150 },
+            new Product() { ProductId = 8, CategoryId = 1, ProductName = "Black And Dark", ImageUrl = "/images/default.jpg", Price = 250 }
         );
     }
 }

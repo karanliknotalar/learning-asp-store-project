@@ -11,7 +11,7 @@ using Repositories;
 namespace StoreApp.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20231007082535_init")]
+    [Migration("20231009083854_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,11 +55,17 @@ namespace StoreApp.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Summary")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ProductId");
@@ -73,57 +79,73 @@ namespace StoreApp.Migrations
                         {
                             ProductId = 1,
                             CategoryId = 2,
+                            ImageUrl = "/images/default.jpg",
                             Price = 11000m,
-                            ProductName = "Asus Computer"
+                            ProductName = "Asus Computer",
+                            Summary = ""
                         },
                         new
                         {
                             ProductId = 2,
                             CategoryId = 2,
+                            ImageUrl = "/images/default.jpg",
                             Price = 12000m,
-                            ProductName = "Hp Notebook"
+                            ProductName = "Hp Notebook",
+                            Summary = ""
                         },
                         new
                         {
                             ProductId = 3,
                             CategoryId = 2,
+                            ImageUrl = "/images/default.jpg",
                             Price = 13000m,
-                            ProductName = "Iphone 13"
+                            ProductName = "Iphone 13",
+                            Summary = ""
                         },
                         new
                         {
                             ProductId = 4,
                             CategoryId = 2,
+                            ImageUrl = "/images/default.jpg",
                             Price = 14000m,
-                            ProductName = "Iphone 14"
+                            ProductName = "Iphone 14",
+                            Summary = ""
                         },
                         new
                         {
                             ProductId = 5,
                             CategoryId = 2,
+                            ImageUrl = "/images/default.jpg",
                             Price = 15000m,
-                            ProductName = "Iphone 15"
+                            ProductName = "Iphone 15",
+                            Summary = ""
                         },
                         new
                         {
                             ProductId = 6,
                             CategoryId = 2,
+                            ImageUrl = "/images/default.jpg",
                             Price = 16000m,
-                            ProductName = "Iphone 16"
+                            ProductName = "Iphone 16",
+                            Summary = ""
                         },
                         new
                         {
                             ProductId = 7,
                             CategoryId = 1,
+                            ImageUrl = "/images/default.jpg",
                             Price = 150m,
-                            ProductName = "Angry"
+                            ProductName = "Angry",
+                            Summary = ""
                         },
                         new
                         {
                             ProductId = 8,
                             CategoryId = 1,
+                            ImageUrl = "/images/default.jpg",
                             Price = 250m,
-                            ProductName = "Black And Dark"
+                            ProductName = "Black And Dark",
+                            Summary = ""
                         });
                 });
 

@@ -1,10 +1,21 @@
 @model Product
 
-<div class="card w-100">
-    <img class="bd-placeholder-img card-img-top w-25 h-auto" src="~/images/default.jpg" alt="@Model.ProductName"></img>
-    <div class="card-body">
-        <h5 class="card-title">@Model.ProductName</h5>
-        <p class="card-text">@Model.Price.ToString("c")</p>
+<div class="row">
+    <div class="col-12">
+        <div class="text-center">
+            <div class="display-6">
+                @Model.ProductName
+            </div>
+            <div class="my-3">
+                <img class="bd-placeholder-img card-img-top w-50 h-auto rounded shadow" src="@Model.ImageUrl" alt="@Model.ProductName">
+                <p class="my-3">@Model.Summary</p>
+                <div class="lead text-danger">
+                    @Model.Price.ToString("c")
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
         <a class="btn btn-warning" asp-action="Index" asp-controller="Home">
             <i class="fa fa-home" aria-hidden="true"></i>
             Home

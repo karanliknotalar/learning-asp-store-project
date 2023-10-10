@@ -1,3 +1,4 @@
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 using Repositories.Contracts;
@@ -5,6 +6,8 @@ using Services;
 using Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddRazorPages();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<RepositoryContext>(options =>
@@ -21,6 +24,8 @@ builder.Services.AddScoped<IServiceManager, ServiceManager>();
 builder.Services.AddScoped<ICategoryService, CategoryManager>();
 builder.Services.AddScoped<IProductService, ProductManager>();
 
+builder.Services.AddSingleton<Cart>();
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
@@ -33,7 +38,10 @@ app.UseEndpoints(endpoint =>
 {
     endpoint.MapAreaControllerRoute(name: "Admin", areaName: "Admin",
         pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+    
     endpoint.MapControllerRoute("default", "{Controller=Home}/{Action=Index}/{id?}");
+    
+    endpoint.MapRazorPages();
 });
 
 app.Run();

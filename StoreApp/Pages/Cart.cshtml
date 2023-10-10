@@ -1,0 +1,47 @@
+﻿@page "/cart"
+@model CartModel
+
+<div class="my-3">
+    <div class="display-6 text-center">
+        Cart
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var line in Model.Cart.Lines ?? Enumerable.Empty<CartLine>())
+    {
+        <tr>
+            <td>@line.Product.ProductName</td>
+            <td>@line.Product.Price.ToString("C")</td>
+            <td>@line.Quantity</td>
+            <td>@((line.Product.Price * line.Quantity).ToString("C"))</td>
+            <td>
+                <form method="post" asp-page-handler="Remove">
+                    <input hidden name="productId" value="@line.Product.ProductId"/>
+                    <input hidden name="returnUrl" value="@Model.ReturnUrl"/>
+                    <button class="btn btn-sm btn-danger" type="submit">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="3"></td>
+        <td class="align-text-bottom">Total:</td>
+        <td class="align-text-bottom text-danger">@Model.Cart.ComputeTotalValue().ToString("C")</td>
+    </tr>
+    </tfoot>
+</table>

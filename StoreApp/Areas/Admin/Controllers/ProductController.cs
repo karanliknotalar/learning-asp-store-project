@@ -1,5 +1,4 @@
 ﻿using Entities.Dtos;
-using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Services.Contracts;
@@ -25,47 +24,62 @@ public class ProductController : Controller
     public IActionResult Create()
     {
         // ViewBag.Categories = _manager.CategoryServices.GetAllCategories(false);
-        var categories = _manager.CategoryServices.GetAllCategories(false);
-        ViewBag.Categories = new SelectList(
-            categories,
-            "CategoryId",
-            "CategoryName",
-            "1"
-        );
+        ViewBag.Categories = SelectListForCategory();
         return View();
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult Create([FromForm] ProductDtoForInsertion productDto)
+    public async Task<IActionResult> Create([FromForm] ProductDtoForInsertion productDto, [FromForm] IFormFile file)
     {
-        if (!ModelState.IsValid) return View();
+        if (ModelState.IsValid)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", file.FileName);
+            await using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
 
-        _manager.ProductServices.CreateProduct(productDto);
-        return RedirectToAction("Index");
+            productDto.ImageUrl = string.Concat("/images/", file.FileName);
+
+            _manager.ProductServices.CreateProduct(productDto);
+            return RedirectToAction("Index");
+        }
+
+        ViewBag.Categories = SelectListForCategory();
+        return View();
     }
 
     public IActionResult Update([FromRoute(Name = "id")] int id)
     {
-        var product = _manager.ProductServices.GetOneProduct(id, false);
-        // ViewBag.Categories = _manager.CategoryServices.GetAllCategories(false);
-        var categories = _manager.CategoryServices.GetAllCategories(false);
+        var product = _manager.ProductServices.GetOneProductUpdate(id, false);
         if (product == null) throw new Exception("Product not found!");
-        ViewBag.Categories = new SelectList(
-            categories,
-            "CategoryId",
-            "CategoryName",
-            product.CategoryId
-        );
+        ViewBag.Categories = SelectListForCategory((int)product.CategoryId!);
         return View(product);
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public IActionResult Update(Product product)
+    public async Task<IActionResult> Update([FromForm] ProductDtoForInsertion productDto, [FromForm] IFormFile? file)
     {
-        if (!ModelState.IsValid) return View();
+        if (ModelState.IsValid)
+        {
+            if (file?.FileName != null)
+            {
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", file.FileName);
+                await using var stream = new FileStream(path, FileMode.Create);
+                await file.CopyToAsync(stream);
+            }
 
-        _manager.ProductServices.UpdateProduct(product);
-        return RedirectToAction("Index");
+            productDto.ImageUrl = (file?.FileName != null)
+                ? string.Concat("/images/", file.FileName)
+                : GetProductImage(productDto.ProductId);
+
+            _manager.ProductServices.UpdateProduct(productDto);
+            return RedirectToAction("Index");
+        }
+        var product = _manager.ProductServices.GetOneProductUpdate(productDto.ProductId, false);
+        if (product == null) throw new Exception("Product not found!");
+        ViewBag.Categories = SelectListForCategory((int)productDto.CategoryId!);
+        return View(product);
     }
 
     public IActionResult Delete([FromRoute(Name = "id")] int id)
@@ -77,5 +91,20 @@ public class ProductController : Controller
         }
 
         return RedirectToAction("Index");
+    }
+
+    private SelectList SelectListForCategory(int selectedCategoryId = 1)
+    {
+        return new SelectList(
+            _manager.CategoryServices.GetAllCategories(false),
+            "CategoryId",
+            "CategoryName",
+            selectedCategoryId
+        );
+    }
+
+    private string GetProductImage(int id)
+    {
+        return _manager.ProductServices.GetOneProduct(id, false)?.ImageUrl ?? "";
     }
 }

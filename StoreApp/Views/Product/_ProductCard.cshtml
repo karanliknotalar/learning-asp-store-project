@@ -2,14 +2,25 @@
 
 <div class="col-sm-12 col-md-4 mt-3 mb-2">
     <div class="card w-100">
-        <img class="bd-placeholder-img card-img-top" src="~/images/default.jpg" alt="@Model.ProductName"></img>
+        <img class="bd-placeholder-img card-img-top" src="@Model.ImageUrl" alt="@Model.ProductName">
         <div class="card-body">
             <h5 class="card-title">@Model.ProductName</h5>
             <p class="card-text">@Model.Price.ToString("c")</p>
-            <a class="btn btn-warning" asp-action="Get" asp-controller="Product" asp-route-id="@Model.ProductId">
-                <i class="fa fa-info-circle" aria-hidden="true"></i>
-                Get Details
-            </a>
+
+            <form method="post" asp-page="/Cart" id="@Model.ProductId">
+                <input hidden asp-for="ProductId"/>
+                <input hidden name="returnUrl" value="/Product/Get/@Model.ProductId"/>
+                <div class="btn btn-group">
+                    <a class="btn btn-primary" asp-action="Get" asp-controller="Product" asp-route-id="@Model.ProductId">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        Get Details
+                    </a>
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fa fa-cart-plus"></i>
+                        Add Cart
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
