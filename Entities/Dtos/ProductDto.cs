@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Entities.Models;
 
 namespace Entities.Dtos;
 
@@ -17,5 +16,5 @@ public record ProductDto
 
     [Required(ErrorMessage = "price name is not empty.")]
     [Range(0, int.MaxValue)]
-    public decimal Price { get; init; } = 0;
+    public decimal Price { get; init; }
 }

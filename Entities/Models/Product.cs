@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-
-namespace Entities.Models;
+﻿namespace Entities.Models;
 
 public class Product
 {

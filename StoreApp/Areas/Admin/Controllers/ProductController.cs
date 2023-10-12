@@ -17,7 +17,7 @@ public class ProductController : Controller
 
     public IActionResult Index()
     {
-        var product = _manager.ProductServices.GetAllProduct(false);
+        var product = _manager.ProductServices.GetAllProduct();
         return View(product);
     }
 
@@ -51,7 +51,7 @@ public class ProductController : Controller
 
     public IActionResult Update([FromRoute(Name = "id")] int id)
     {
-        var product = _manager.ProductServices.GetOneProductUpdate(id, false);
+        var product = _manager.ProductServices.GetOneProductUpdate(id);
         if (product == null) throw new Exception("Product not found!");
         ViewBag.Categories = SelectListForCategory((int)product.CategoryId!);
         return View(product);
@@ -76,7 +76,7 @@ public class ProductController : Controller
             _manager.ProductServices.UpdateProduct(productDto);
             return RedirectToAction("Index");
         }
-        var product = _manager.ProductServices.GetOneProductUpdate(productDto.ProductId, false);
+        var product = _manager.ProductServices.GetOneProductUpdate(productDto.ProductId);
         if (product == null) throw new Exception("Product not found!");
         ViewBag.Categories = SelectListForCategory((int)productDto.CategoryId!);
         return View(product);
@@ -84,7 +84,7 @@ public class ProductController : Controller
 
     public IActionResult Delete([FromRoute(Name = "id")] int id)
     {
-        var product = _manager.ProductServices.GetOneProduct(id, false);
+        var product = _manager.ProductServices.GetOneProduct(id);
         if (product != null)
         {
             _manager.ProductServices.DeleteProduct(product);
@@ -105,6 +105,6 @@ public class ProductController : Controller
 
     private string GetProductImage(int id)
     {
-        return _manager.ProductServices.GetOneProduct(id, false)?.ImageUrl ?? "";
+        return _manager.ProductServices.GetOneProduct(id)?.ImageUrl ?? "";
     }
 }

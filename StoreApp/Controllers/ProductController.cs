@@ -1,7 +1,5 @@
 using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
-using Repositories;
-using Repositories.Contracts;
 using Services.Contracts;
 
 namespace StoreApp.Controllers
@@ -17,13 +15,13 @@ namespace StoreApp.Controllers
 
         public IActionResult Index()
         {
-            var model = _manager.ProductServices.GetAllProduct(false);
+            var model = _manager.ProductServices.GetAllProduct();
             return View(model);
         }
 
         public IActionResult Get([FromRoute(Name = "id")] int id)
         {
-            Product? product = _manager.ProductServices.GetOneProduct(id, false);
+            Product? product = _manager.ProductServices.GetOneProduct(id);
             return View(product);
         }
     }
