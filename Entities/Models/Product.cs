@@ -7,6 +7,7 @@ public class Product
     public string? ProductName { get; set; } = string.Empty;
     public string? Summary { get; set; } = string.Empty;
     public string? ImageUrl { get; set; } = string.Empty;
-    public decimal Price { get; set; } = 0;
+    public decimal Price { get; set; }
+    
     public Category? Category { get; set; }
 }
