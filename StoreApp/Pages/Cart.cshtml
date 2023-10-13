@@ -28,7 +28,7 @@
             <td>
                 <form method="post" asp-page-handler="Remove">
                     <input hidden name="productId" value="@line.Product.ProductId"/>
-                    <input hidden name="returnUrl" value="@Model.ReturnUrl"/>
+                    <input hidden name="returnUrl" value="@Model?.ReturnUrl"/>
                     <button class="btn btn-sm btn-danger" type="submit">
                         <i class="fa fa-remove"></i>
                     </button>
@@ -41,7 +41,13 @@
     <tr>
         <td colspan="3"></td>
         <td class="align-text-bottom">Total:</td>
-        <td class="align-text-bottom text-danger">@Model.Cart.ComputeTotalValue().ToString("C")</td>
+        <td class="align-text-bottom text-danger">@Model?.Cart.ComputeTotalValue().ToString("C")</td>
     </tr>
     </tfoot>
 </table>
+<div class="my-3 text-center">
+    <div class="btn-group">
+        <a class="btn btn-primary" href="@Model?.ReturnUrl">Continue Shopping</a>
+        <a class="btn btn-outline-primary" asp-controller="Order" asp-action="Checkout">Checkout</a>
+    </div>
+</div>

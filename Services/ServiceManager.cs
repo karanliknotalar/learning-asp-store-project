@@ -8,13 +8,15 @@ namespace Services
         private readonly RepositoryContext _context;
         public IProductService ProductServices { get; }
         public ICategoryService CategoryServices { get; }
+        public IOrderService OrderService { get; }
 
         public ServiceManager(RepositoryContext context, IProductService productService,
-            ICategoryService categoryService)
+            ICategoryService categoryService, IOrderService orderService)
         {
             _context = context;
             ProductServices = productService;
             CategoryServices = categoryService;
+            OrderService = orderService;
         }
 
         public void Save()

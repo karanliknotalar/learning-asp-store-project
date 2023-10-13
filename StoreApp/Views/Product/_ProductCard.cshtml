@@ -9,7 +9,7 @@
 
             <form method="post" asp-page="/Cart" id="@Model.ProductId">
                 <input hidden asp-for="ProductId"/>
-                <input hidden name="returnUrl" value="/Product/Get/@Model.ProductId"/>
+                <input hidden name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()"/>
                 <div class="btn btn-group">
                     <a class="btn btn-primary" asp-action="Get" asp-controller="Product" asp-route-id="@Model.ProductId">
                         <i class="fa fa-info-circle" aria-hidden="true"></i>

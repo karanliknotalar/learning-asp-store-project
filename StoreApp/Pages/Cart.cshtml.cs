@@ -33,7 +33,7 @@ public class CartModel : PageModel
             Cart.AddItem(product, 1);
         }
 
-        return Page();
+        return RedirectToPage(new { returnUrl = returnUrl});
     }
 
     public IActionResult OnPostRemove(int productId, string returnUrl)
