@@ -482,3 +482,4 @@ global.json
 *.db-shm
 *.db-wal
 **/.idea/
+StoreProductDb.db
