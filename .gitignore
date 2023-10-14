@@ -479,7 +479,6 @@ $RECYCLE.BIN/
 #Custom 
 **/.vscode/
 global.json
-**/.idea/
-**/.idea.Store/.idea
 *.db-shm
 *.db-wal
+.idea
