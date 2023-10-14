@@ -481,4 +481,4 @@ $RECYCLE.BIN/
 global.json
 *.db-shm
 *.db-wal
-.idea
+**.idea**
