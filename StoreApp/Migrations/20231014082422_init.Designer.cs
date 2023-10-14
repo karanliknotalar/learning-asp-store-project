@@ -11,7 +11,7 @@ using Repositories;
 namespace StoreApp.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20231013080906_init")]
+    [Migration("20231014082422_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,25 +81,28 @@ namespace StoreApp.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Adress2")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Adress3")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<bool?>("GiftWrap")
+                    b.Property<bool>("GiftWrap")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("OrderedAt")
+                    b.Property<DateTime>("OrderedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool?>("Shipped")
+                    b.Property<bool>("Shipped")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("OrderId");
@@ -126,6 +129,9 @@ namespace StoreApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("ShowCase")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Summary")
                         .HasColumnType("TEXT");
 
@@ -143,6 +149,7 @@ namespace StoreApp.Migrations
                             ImageUrl = "/images/default.jpg",
                             Price = 11000m,
                             ProductName = "Asus Computer",
+                            ShowCase = true,
                             Summary = ""
                         },
                         new
@@ -152,6 +159,7 @@ namespace StoreApp.Migrations
                             ImageUrl = "/images/default.jpg",
                             Price = 12000m,
                             ProductName = "Hp Notebook",
+                            ShowCase = true,
                             Summary = ""
                         },
                         new
@@ -161,6 +169,7 @@ namespace StoreApp.Migrations
                             ImageUrl = "/images/default.jpg",
                             Price = 13000m,
                             ProductName = "Iphone 13",
+                            ShowCase = false,
                             Summary = ""
                         },
                         new
@@ -170,6 +179,7 @@ namespace StoreApp.Migrations
                             ImageUrl = "/images/default.jpg",
                             Price = 14000m,
                             ProductName = "Iphone 14",
+                            ShowCase = false,
                             Summary = ""
                         },
                         new
@@ -179,6 +189,7 @@ namespace StoreApp.Migrations
                             ImageUrl = "/images/default.jpg",
                             Price = 15000m,
                             ProductName = "Iphone 15",
+                            ShowCase = false,
                             Summary = ""
                         },
                         new
@@ -188,24 +199,47 @@ namespace StoreApp.Migrations
                             ImageUrl = "/images/default.jpg",
                             Price = 16000m,
                             ProductName = "Iphone 16",
+                            ShowCase = false,
                             Summary = ""
                         },
                         new
                         {
                             ProductId = 7,
-                            CategoryId = 1,
+                            CategoryId = 2,
                             ImageUrl = "/images/default.jpg",
-                            Price = 150m,
-                            ProductName = "Angry",
+                            Price = 16000m,
+                            ProductName = "Iphone 17",
+                            ShowCase = false,
                             Summary = ""
                         },
                         new
                         {
                             ProductId = 8,
+                            CategoryId = 2,
+                            ImageUrl = "/images/default.jpg",
+                            Price = 16000m,
+                            ProductName = "Iphone 100",
+                            ShowCase = true,
+                            Summary = ""
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            CategoryId = 1,
+                            ImageUrl = "/images/default.jpg",
+                            Price = 150m,
+                            ProductName = "Angry",
+                            ShowCase = false,
+                            Summary = ""
+                        },
+                        new
+                        {
+                            ProductId = 10,
                             CategoryId = 1,
                             ImageUrl = "/images/default.jpg",
                             Price = 250m,
                             ProductName = "Black And Dark",
+                            ShowCase = false,
                             Summary = ""
                         });
                 });

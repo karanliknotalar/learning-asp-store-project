@@ -11,7 +11,13 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
     }
 
-    public IEnumerable<Product> GetAllProducts(bool trackChanges) => FindAll(trackChanges);
+    public IQueryable<Product> GetAllProducts(bool trackChanges) => FindAll(trackChanges);
+
+    public IQueryable<Product> GetShowCaseProduct(bool trackChanges)
+    {
+        return FindAll(trackChanges)
+            .Where(p => p.ShowCase.Equals(true));
+    }
 
     public Product? GetOneProduct(int id, bool trackChanges)
     {

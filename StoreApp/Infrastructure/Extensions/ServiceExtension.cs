@@ -46,4 +46,14 @@ public static class ServiceExtension
         service.AddScoped<IProductService, ProductManager>();
         service.AddScoped<IOrderService, OrderManager>();
     }
+
+    public static void ConfigureRouting(this IServiceCollection service)
+    {
+        service.AddRouting(options =>
+        {
+            options.LowercaseQueryStrings = false;
+            options.LowercaseUrls = true;
+            options.AppendTrailingSlash = false;
+        });
+    }
 }

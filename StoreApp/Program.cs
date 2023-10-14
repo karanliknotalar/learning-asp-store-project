@@ -3,13 +3,16 @@ using StoreApp.Infrastructure.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
-
 builder.Services.AddControllersWithViews();
 
+//Custom extension
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureSession();
 builder.Services.ConfigureRepositoryRegistration();
 builder.Services.ConfigureServiceRegistration();
+builder.Services.ConfigureRouting();
+//Custom Extension End
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
@@ -28,5 +31,10 @@ app.UseEndpoints(endpoint =>
 
     endpoint.MapRazorPages();
 });
+
+//Custom Extension
+app.AutoMigration();
+app.ConfigureLocalization();
+//Custom Extension End
 
 app.Run();

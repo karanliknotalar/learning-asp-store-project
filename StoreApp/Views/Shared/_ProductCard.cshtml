@@ -2,20 +2,24 @@
 
 <div class="col-sm-12 col-md-4 mt-3 mb-2">
     <div class="card">
-        <img class="bd-placeholder-img card-img-top" src="@Model.ImageUrl" alt="@Model.ProductName"  style="height: 250px">
-        <div class="card-body">
+        <div class="card-header ">
             <h5 class="card-title">@Model.ProductName</h5>
-            <p class="card-text">@Model.Price.ToString("C")</p>
-
+        </div>
+        <img class="img-fluid" src="@Model.ImageUrl" alt="@Model.ProductName">
+        <div class="card-body text-center">
+            <p class="card-text">@Model.Summary</p>
+            <p class="card-text text-danger lead rounded-2">@Model.Price.ToString("C")</p>
+        </div>
+        <div class="card-footer text-center">
             <form method="post" asp-page="/Cart" id="@Model.ProductId">
                 <input hidden asp-for="ProductId"/>
                 <input hidden name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()"/>
                 <div class="btn btn-group">
-                    <a class="btn btn-primary" asp-action="Get" asp-controller="Product" asp-route-id="@Model.ProductId">
+                    <a class="btn btn-secondary" asp-action="Get" asp-controller="Product" asp-route-id="@Model.ProductId">
                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                         Get Details
                     </a>
-                    <button class="btn btn-outline-primary" type="submit">
+                    <button class="btn btn-outline-secondary" type="submit">
                         <i class="fa fa-cart-plus"></i>
                         Add Cart
                     </button>

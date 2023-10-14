@@ -22,6 +22,11 @@ namespace Services
             return _manager.Product.GetAllProducts(trackChanges);
         }
 
+        public IEnumerable<Product> GetShowCaseProduct(bool trackChanges)
+        {
+            return _manager.Product.GetShowCaseProduct(trackChanges);
+        }
+
         public Product GetOneProduct(int id, bool trackChanges)
         {
             return _manager.Product.GetOneProduct(id, trackChanges)

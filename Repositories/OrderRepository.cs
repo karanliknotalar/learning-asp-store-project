@@ -10,7 +10,7 @@ public class OrderRepository : RepositoryBase<Order>, IOrderRepository
     {
     }
 
-    public IEnumerable<Order> Orders => _context.Orders!
+    public IQueryable<Order> Orders => _context.Orders!
         .Include(o => o.Lines)
         .ThenInclude(cl => cl.Product)
         .OrderBy(o => o.Shipped)
