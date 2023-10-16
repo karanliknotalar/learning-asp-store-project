@@ -51,7 +51,7 @@ public static class ServiceExtension
     {
         service.AddRouting(options =>
         {
-            options.LowercaseQueryStrings = false;
+            // options.LowercaseQueryStrings = false;
             options.LowercaseUrls = true;
             options.AppendTrailingSlash = false;
         });

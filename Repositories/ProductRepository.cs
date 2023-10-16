@@ -1,10 +1,11 @@
 using Repositories.Contracts;
 using Entities.Models;
-using System.Linq.Expressions;
+using Entities.RequestParameters;
+using Repositories.Extensions;
 
 namespace Repositories;
 
-public class ProductRepository : RepositoryBase<Product>, IProductRepository
+public sealed class ProductRepository : RepositoryBase<Product>, IProductRepository
 {
     public ProductRepository(RepositoryContext context)
         : base(context)
@@ -12,6 +13,14 @@ public class ProductRepository : RepositoryBase<Product>, IProductRepository
     }
 
     public IQueryable<Product> GetAllProducts(bool trackChanges) => FindAll(trackChanges);
+
+    public IQueryable<Product> GetAllProductsWithDetails(ProductRequestParameters? param)
+    {
+        return _context.Products?
+            .FilteredByCategoryId(param?.CategoryId)
+            .FilteredBySearchTerm(param?.SearchTerm)
+            .FilteredByPrice(param?.MinPrice, param?.MaxPrice, param.IsValidPrice)!;
+    }
 
     public IQueryable<Product> GetShowCaseProduct(bool trackChanges)
     {

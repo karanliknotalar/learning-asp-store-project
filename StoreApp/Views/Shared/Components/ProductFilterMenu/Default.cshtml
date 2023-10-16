@@ -1,0 +1,32 @@
+﻿@{
+    var categoryId = @Context.Request.Query["categoryId"];
+    var searchTerm = @Context.Request.Query["SearchTerm"];
+    var minPrice = @Context.Request.Query["MinPrice"];
+    var maxPrice = @Context.Request.Query["MaxPrice"];
+}
+
+<div class="my-3">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <form asp-controller="Product" asp-action="Index" method="get">
+                @if (!string.IsNullOrWhiteSpace(categoryId))
+                {
+                    <input hidden="hidden" name="categoryId" value="@categoryId"/>
+                }
+                <div class="my-3">
+                    <label class="mb-1">Search</label>
+                    <input class="form-control" name="SearchTerm" value="@searchTerm"/>
+                </div>
+                <div class="mb-3">
+                    <label class="mb-1">Min Price</label>
+                    <input class="form-control" name="MinPrice" value="@minPrice"/>
+                </div>
+                <div class="mb-3">
+                    <label class="mb-1">Max Price</label>
+                    <input class="form-control" name="MaxPrice" value="@maxPrice"/>
+                </div>
+                <button class="btn btn-primary btn-sm my-3" type="submit">Filter</button>
+            </form>
+        </li>
+    </ul>
+</div>
