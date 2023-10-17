@@ -4,8 +4,7 @@
     <div class="col-3">
         @await Component.InvokeAsync("CategoriesMenu")
         @await Component.InvokeAsync("ProductFilterMenu")
-
-        <div products="" number="4"></div>
+        <div products="" number="4" class="mt-4"></div>
     </div>
     <div class="col-9">
         <div class="row">
@@ -15,13 +14,13 @@
             }
         </div>
 
-        <div class="text-center">
+        <div class="text-center mt-5">
             <div class="btn-group"
                  page-action="Index"
                  btn-class-enabled="true"
                  btn-class="btn btn-sm"
-                 btn-class-style-normal="btn-outline-dark"
-                 btn-class-style-selected="btn-dark"
+                 btn-class-style-normal="btn-outline-secondary"
+                 btn-class-style-selected="btn-secondary"
                  pagination="@Model.Pagination">
             </div>
         </div>

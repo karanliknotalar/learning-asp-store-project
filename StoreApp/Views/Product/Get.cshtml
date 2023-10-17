@@ -17,20 +17,19 @@
     </div>
     <div class="col-12">
         <div class="text-center">
-
             <form method="post" asp-page="/Cart" id="@Model.ProductId" class="my-3">
                 <input hidden asp-for="ProductId"/>
                 <input hidden name="returnUrl" value="@ViewContext.HttpContext.Request.PathAndQuery()"/>
                 <div class="btn-group">
-                    <a class="btn btn-warning" asp-action="Index" asp-controller="Home">
+                    <a class="btn btn-outline-dark" asp-action="Index" asp-controller="Home">
                         <i class="fa fa-home" aria-hidden="true"></i>
                         Home
                     </a>
-                    <a class="btn btn-outline-warning" asp-action="Index" asp-controller="Product">
+                    <a class="btn btn-outline-dark" asp-action="Index" asp-controller="Product">
                         <i class="fa fa-list" aria-hidden="true"></i>
                         Products
                     </a>
-                    <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-outline-dark" type="submit">
                         <i class="fa fa-cart-plus"></i>
                         Add Cart
                     </button>
