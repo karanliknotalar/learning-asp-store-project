@@ -9,6 +9,7 @@ namespace Services.Contracts
         IEnumerable<Product> GetAllProduct(bool trackChanges = false);
         IEnumerable<Product> GetAllProductsWithDetails(ProductRequestParameters? parameters);
         IEnumerable<Product> GetShowCaseProduct(bool trackChanges = false);
+        IEnumerable<Product> GetLatestProduct(int n,bool trackChanges = false);
         Product? GetOneProduct(int id, bool trackChanges = false);
         void CreateProduct(ProductDtoForInsertion productDto);
         void DeleteProduct(Product product);

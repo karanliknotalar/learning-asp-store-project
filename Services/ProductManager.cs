@@ -33,6 +33,14 @@ namespace Services
             return _manager.Product.GetShowCaseProduct(trackChanges);
         }
 
+        public IEnumerable<Product> GetLatestProduct(int n, bool trackChanges = false)
+        {
+            return _manager.Product
+                .FindAll(trackChanges)
+                .OrderByDescending(p => p.ProductId)
+                .Take(n);
+        }
+
         public Product GetOneProduct(int id, bool trackChanges)
         {
             return _manager.Product.GetOneProduct(id, trackChanges)

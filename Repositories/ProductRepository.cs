@@ -19,7 +19,8 @@ public sealed class ProductRepository : RepositoryBase<Product>, IProductReposit
         return _context.Products?
             .FilteredByCategoryId(param?.CategoryId)
             .FilteredBySearchTerm(param?.SearchTerm)
-            .FilteredByPrice(param?.MinPrice, param?.MaxPrice, param.IsValidPrice)!;
+            .FilteredByPrice(param?.MinPrice, param?.MaxPrice, param.IsValidPrice)
+            .ToPaginate(param.PageNumber, param.PageSize)!;
     }
 
     public IQueryable<Product> GetShowCaseProduct(bool trackChanges)

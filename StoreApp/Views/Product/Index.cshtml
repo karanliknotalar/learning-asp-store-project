@@ -1,16 +1,34 @@
-@model IEnumerable<Product>
+@model ProductListViewModel
 
 <div class="row">
     <div class="col-3">
         @await Component.InvokeAsync("CategoriesMenu")
         @await Component.InvokeAsync("ProductFilterMenu")
+
+        <div products="" number="4"></div>
     </div>
     <div class="col-9">
         <div class="row">
-            @foreach (var product in Model)
+            @foreach (var product in Model.Products)
             {
                 <partial name="_ProductCard" model="@product"/>
             }
         </div>
+
+        <div class="text-center">
+            <div class="btn-group"
+                 page-action="Index"
+                 btn-class-enabled="true"
+                 btn-class="btn btn-sm"
+                 btn-class-style-normal="btn-outline-dark"
+                 btn-class-style-selected="btn-dark"
+                 pagination="@Model.Pagination">
+            </div>
+        </div>
     </div>
 </div>
+
+@section Footer
+{
+    Custom Footer Area
+}
