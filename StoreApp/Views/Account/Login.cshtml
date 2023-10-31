@@ -1,0 +1,42 @@
+﻿@model LoginModel
+
+@section css
+{
+    <style>
+        .form-signin {
+          width: 100%;
+          max-width: 35rem;
+          padding: 2rem;
+          margin: auto;
+        }
+    </style>
+}
+
+<div class="text-center my-2">
+    <div class="display-6">
+        <i class="fa-solid fa-user p-3 text-white bg-secondary rounded"></i>
+    </div>
+</div>
+
+<div class="form-signin">
+    <partial name="_ValidationSummaryPartial"/>
+    <form asp-action="Login" asp-controller="Account" method="post">
+        <input hidden asp-for="ReturnUrl"/>
+        <div class="mb-3">
+            <label asp-for="Name">User Name:</label>
+            <input asp-for="Name" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password">User Password:</label>
+            <input type="password" asp-for="Password" class="form-control"/>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-right-to-bracket"></i> Login
+            </button>
+        </div>
+    </form>
+    <div class="my-3 text-center">
+        If you dont have an account. Please click here the <a asp-controller="Account" asp-action="Register">register</a>
+    </div>
+</div>

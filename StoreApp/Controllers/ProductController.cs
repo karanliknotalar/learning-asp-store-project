@@ -17,13 +17,13 @@ namespace StoreApp.Controllers
         public IActionResult Index(ProductRequestParameters parameters)
         {
             var products = _manager.ProductServices.GetAllProductsWithDetails(parameters);
-            var pagination = new Pagination()
+            var pagination = new Pagination
             {
                 CurrentPage = parameters.PageNumber,
                 ItemsPerPage = parameters.PageSize,
-                TotalItems = _manager.ProductServices.GetAllProduct(false).Count()
+                TotalItems = _manager.ProductServices.GetAllProduct().Count()
             };
-            return View(new ProductListViewModel()
+            return View(new ProductListViewModel
             {
                 Products = products,
                 Pagination = pagination

@@ -7,6 +7,7 @@ builder.Services.AddControllersWithViews();
 
 //Custom extension
 builder.Services.ConfigureDbContext(builder.Configuration);
+builder.Services.ConfigureIdentity();
 builder.Services.ConfigureSession();
 builder.Services.ConfigureRepositoryRegistration();
 builder.Services.ConfigureServiceRegistration();
@@ -18,16 +19,26 @@ builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
 
 app.UseStaticFiles();
+app.UseSession();
+
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseSession();
+
+app.UseAuthentication();
+app.UseAuthentication();
 
 app.UseEndpoints(endpoint =>
 {
-    endpoint.MapAreaControllerRoute(name: "Admin", areaName: "Admin",
-        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+    endpoint.MapAreaControllerRoute(
+        name: "Admin",
+        areaName: "Admin",
+        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}"
+    );
 
-    endpoint.MapControllerRoute("default", "{Controller=Home}/{Action=Index}/{id?}");
+    endpoint.MapControllerRoute(
+        "default",
+        "{Controller=Home}/{Action=Index}/{id?}"
+    );
 
     endpoint.MapRazorPages();
 });
@@ -35,6 +46,7 @@ app.UseEndpoints(endpoint =>
 //Custom Extension
 app.AutoMigration();
 app.ConfigureLocalization();
+app.ConfigureDefaultAdminUser();
 //Custom Extension End
 
 app.Run();
