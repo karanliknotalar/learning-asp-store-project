@@ -12,12 +12,10 @@
 </head>
 
 <body>
-<div class="container">
-    <header>
-        @await RenderSectionAsync("Header", false)
-        <partial name="_Navbar"/>
-    </header>
-</div>
+<header>
+    @await RenderSectionAsync("Header", false)
+    <partial name="_Navbar"/>
+</header>
 
 <div class="container">
     <main role="main" class="p-3">

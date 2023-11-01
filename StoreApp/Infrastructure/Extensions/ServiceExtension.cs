@@ -60,6 +60,7 @@ public static class ServiceExtension
         service.AddScoped<ICategoryService, CategoryManager>();
         service.AddScoped<IProductService, ProductManager>();
         service.AddScoped<IOrderService, OrderManager>();
+        service.AddScoped<IAuthService, AuthManager>();
     }
 
     public static void ConfigureRouting(this IServiceCollection service)

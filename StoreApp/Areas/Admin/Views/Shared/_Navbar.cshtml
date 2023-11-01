@@ -1,5 +1,5 @@
-<nav class="navbar border-bottom navbar-expand-lg bg-dark">
-    <div class="container-fluid">
+<nav class="navbar bg-dark border-bottom navbar-expand-lg">
+    <div class="container">
         <a class="navbar-brand text-white" asp-controller="Dashboard" asp-action="Index">Admin Panel</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,6 +20,16 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" aria-current="page" asp-controller="Order" asp-action="Index">
                         Orders (@await Component.InvokeAsync("OrderSummary"))
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" aria-current="page" asp-controller="Role" asp-action="Index">
+                        Roles (@await Component.InvokeAsync("RoleSummary"))
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" aria-current="page" asp-controller="User" asp-action="Index">
+                        Users (@await Component.InvokeAsync("UserSummary"))
                     </a>
                 </li>
             </ul>
