@@ -52,7 +52,7 @@ public class ProductController : Controller
     public IActionResult Update([FromRoute(Name = "id")] int id)
     {
         var product = _manager.ProductServices.GetOneProductUpdate(id);
-        if (product == null) throw new Exception("Product not found!");
+        if (product is null) throw new Exception("Product not found!");
         ViewBag.Categories = SelectListForCategory((int)product.CategoryId!);
         return View(product);
     }
@@ -62,7 +62,7 @@ public class ProductController : Controller
     {
         if (ModelState.IsValid)
         {
-            if (file?.FileName != null)
+            if (file?.FileName is not null)
             {
                 var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", file.FileName);
                 await using var stream = new FileStream(path, FileMode.Create);
@@ -77,7 +77,7 @@ public class ProductController : Controller
             return RedirectToAction("Index");
         }
         var product = _manager.ProductServices.GetOneProductUpdate(productDto.ProductId);
-        if (product == null) throw new Exception("Product not found!");
+        if (product is null) throw new Exception("Product not found!");
         ViewBag.Categories = SelectListForCategory((int)productDto.CategoryId!);
         return View(product);
     }
@@ -85,7 +85,7 @@ public class ProductController : Controller
     public IActionResult Delete([FromRoute(Name = "id")] int id)
     {
         var product = _manager.ProductServices.GetOneProduct(id);
-        if (product != null)
+        if (product is not null)
         {
             _manager.ProductServices.DeleteProduct(product);
         }
