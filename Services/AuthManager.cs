@@ -23,15 +23,15 @@ public class AuthManager : IAuthService
 
     public async Task<IdentityUser> GetUser(string userName)
     {
-        return await _userManager.FindByNameAsync(userName);
+        var user = await _userManager.FindByNameAsync(userName);
+        if (user is null)
+            throw new Exception($"{userName} user not found.");
+        return user;
     }
 
     public async Task<UserDtoForUpdate> GetUserForUpdate(string userName)
     {
         var user = await GetUser(userName);
-
-        if (user is null)
-            throw new Exception($"{userName} user not found.");
 
         var userDto = _mapper.Map<UserDtoForUpdate>(user);
         userDto.Roles = new HashSet<string>(Roles.Select(r => r.Name).ToList());
@@ -46,12 +46,10 @@ public class AuthManager : IAuthService
         var user = _mapper.Map<IdentityUser>(userDto);
         var result = await _userManager.CreateAsync(user, userDto.Password);
 
-        if (!result.Succeeded)
-            throw new Exception("User could not be created.");
-
         if (userDto.Roles.Any())
         {
             var roleResul = await _userManager.AddToRolesAsync(user, userDto.Roles);
+            
             if (!roleResul.Succeeded)
                 throw new Exception("System have problems with roles");
         }
@@ -62,9 +60,7 @@ public class AuthManager : IAuthService
     public async Task<IdentityResult> UpdateUser(UserDtoForUpdate userDto)
     {
         var user = await GetUser(userDto.CurrentUserName!);
-        if (user is null)
-            throw new Exception($"{userDto.CurrentUserName} user not found.");
-
+        
         user.UserName = userDto.UserName;
         user.Email = userDto.Email;
         user.PhoneNumber = userDto.PhoneNumber;
@@ -100,8 +96,6 @@ public class AuthManager : IAuthService
     public async Task<IdentityResult> ResetPassword(ResetPasswordDto resetPasswordDto)
     {
         var user = await GetUser(resetPasswordDto.UserName!);
-        if (user is null)
-            throw new Exception($"{resetPasswordDto.UserName} user not found.");
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
         if (token is null)
