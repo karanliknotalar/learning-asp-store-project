@@ -10,9 +10,9 @@ namespace StoreApp.Infrastructure.Extensions;
 
 public static class ServiceExtension
 {
-    public static void ConfigureDbContext(this IServiceCollection service, IConfiguration configuration)
+    public static void ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        service.AddDbContext<RepositoryContext>(options =>
+        services.AddDbContext<RepositoryContext>(options =>
         {
             options.UseSqlite(configuration.GetConnectionString("connection"),
                 b => b.MigrationsAssembly("StoreApp"));
@@ -20,9 +20,9 @@ public static class ServiceExtension
         });
     }
 
-    public static void ConfigureIdentity(this IServiceCollection serviceCollection)
+    public static void ConfigureIdentity(this IServiceCollection services)
     {
-        serviceCollection.AddIdentity<IdentityUser, IdentityRole>(options =>
+        services.AddIdentity<IdentityUser, IdentityRole>(options =>
         {
             options.SignIn.RequireConfirmedEmail = false;
             options.User.RequireUniqueEmail = true;
@@ -31,41 +31,47 @@ public static class ServiceExtension
             options.Password.RequireDigit = false;
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequiredLength = 5;
-        }).AddEntityFrameworkStores<RepositoryContext>();
+        }).AddEntityFrameworkStores<RepositoryContext>()
+            .AddDefaultTokenProviders()
+            .AddTokenProvider<EmailTokenProvider<IdentityUser>>(TokenOptions.DefaultEmailProvider);
+        
+        services.Configure<DataProtectionTokenProviderOptions>(o =>
+            o.TokenLifespan = TimeSpan.FromHours(1));
+  
     }
 
-    public static void ConfigureSession(this IServiceCollection service)
+    public static void ConfigureSession(this IServiceCollection services)
     {
-        service.AddDistributedMemoryCache();
-        service.AddSession(options =>
+        services.AddDistributedMemoryCache();
+        services.AddSession(options =>
         {
             options.Cookie.Name = "StoreApp.Session";
             options.IdleTimeout = TimeSpan.FromMinutes(10);
         });
-        service.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        service.AddScoped(SessionCart.GetCart);
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddScoped(SessionCart.GetCart);
     }
 
-    public static void ConfigureRepositoryRegistration(this IServiceCollection service)
+    public static void ConfigureRepositoryRegistration(this IServiceCollection services)
     {
-        service.AddScoped<IRepositoryManager, RepositoryManager>();
-        service.AddScoped<IProductRepository, ProductRepository>();
-        service.AddScoped<ICategoryRepository, CategoryRepository>();
-        service.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IRepositoryManager, RepositoryManager>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
     }
 
-    public static void ConfigureServiceRegistration(this IServiceCollection service)
+    public static void ConfigureServiceRegistration(this IServiceCollection services)
     {
-        service.AddScoped<IServiceManager, ServiceManager>();
-        service.AddScoped<ICategoryService, CategoryManager>();
-        service.AddScoped<IProductService, ProductManager>();
-        service.AddScoped<IOrderService, OrderManager>();
-        service.AddScoped<IAuthService, AuthManager>();
+        services.AddScoped<IServiceManager, ServiceManager>();
+        services.AddScoped<ICategoryService, CategoryManager>();
+        services.AddScoped<IProductService, ProductManager>();
+        services.AddScoped<IOrderService, OrderManager>();
+        services.AddScoped<IAuthService, AuthManager>();
     }
 
-    public static void ConfigureRouting(this IServiceCollection service)
+    public static void ConfigureRouting(this IServiceCollection services)
     {
-        service.AddRouting(options =>
+        services.AddRouting(options =>
         {
             // options.LowercaseQueryStrings = false;
             options.LowercaseUrls = true;

@@ -30,18 +30,17 @@ public class AuthManager : IAuthService
     {
         var user = await GetOneUser(userName);
 
-        if (user is not null)
-        {
-            var userDto = _mapper.Map<UserDtoForUpdate>(user);
-            userDto.Roles = new HashSet<string>(Roles.Select(r => r.Name).ToList());
-            userDto.UserRoles = new HashSet<string>(await _userManager.GetRolesAsync(user));
-            userDto.CurrentUserName = user.UserName;
-            return userDto;
-        }
+        if (user is null)
+            throw new Exception($"{userName} user not found.");
 
-        throw new Exception("User not found for update");
+        var userDto = _mapper.Map<UserDtoForUpdate>(user);
+        userDto.Roles = new HashSet<string>(Roles.Select(r => r.Name).ToList());
+        userDto.UserRoles = new HashSet<string>(await _userManager.GetRolesAsync(user));
+        userDto.CurrentUserName = user.UserName;
+
+        return userDto;
     }
-    
+
     public async Task<IdentityResult> CreateUser(UserDtoForInsertion userDto)
     {
         var user = _mapper.Map<IdentityUser>(userDto);
@@ -88,7 +87,7 @@ public class AuthManager : IAuthService
 
         return updateResult;
     }
-    
+
     public async Task<IdentityResult> DeleteUser(string userName)
     {
         var user = await GetOneUser(userName);
@@ -96,5 +95,18 @@ public class AuthManager : IAuthService
         if (!result.Succeeded)
             throw new Exception("User could not be deleted.");
         return result;
+    }
+
+    public async Task<IdentityResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+        var user = await GetOneUser(resetPasswordDto.UserName!);
+        if (user is null)
+            throw new Exception($"{resetPasswordDto.UserName} user not found.");
+
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        if (token is null)
+            throw new Exception($"{resetPasswordDto.UserName} user isin password reset token could not be created");
+
+        return await _userManager.ResetPasswordAsync(user, token, resetPasswordDto.Password);
     }
 }

@@ -12,4 +12,5 @@ public interface IAuthService
     Task<IdentityResult> CreateUser(UserDtoForInsertion userDto);
     Task<IdentityResult> UpdateUser(UserDtoForUpdate userDto);
     Task<IdentityResult> DeleteUser(string userName);
+    Task<IdentityResult> ResetPassword(ResetPasswordDto resetPasswordDto);
 }

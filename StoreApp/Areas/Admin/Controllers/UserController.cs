@@ -61,9 +61,17 @@ public class UserController : Controller
             {
                 return RedirectToAction("Index");
             }
+
+            if (result.Errors.Any())
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
         }
 
-        return RedirectToAction("Update");
+        return View(await _manager.AuthService.GetOneUserForUpdate(userDto.CurrentUserName!));
     }
 
     public async Task<IActionResult> Delete([FromRoute(Name = "id")] string userName)
@@ -78,5 +86,40 @@ public class UserController : Controller
         }
 
         return RedirectToAction("Index");
+    }
+
+    public IActionResult ResetPassword([FromRoute(Name = "id")] string userName)
+    {
+        return View(new ResetPasswordDto()
+        {
+            UserName = userName
+        });
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordDto model)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await _manager.AuthService.ResetPassword(model);
+
+            if (result.Errors.Any())
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        return View(new ResetPasswordDto()
+        {
+            UserName = model.UserName
+        });
     }
 }
