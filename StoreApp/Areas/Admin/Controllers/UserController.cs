@@ -52,20 +52,20 @@ public class UserController : Controller
         if (ModelState.IsValid)
         {
             var result = await _manager.AuthService.UpdateUser(userDto);
-            
+
             this.AddModelStateError(result.Errors);
-            
+
             if (result.Succeeded)
                 return RedirectToAction("Index");
-            
         }
 
         return View(await _manager.AuthService.GetUserForUpdate(userDto.CurrentUserName!));
     }
 
-    public async Task<IActionResult> Delete([FromRoute(Name = "id")] string userName)
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete([FromForm] UserDto userDto)
     {
-        var result = await _manager.AuthService.DeleteUser(userName);
+        var result = await _manager.AuthService.DeleteUser(userDto.UserName!);
 
         this.AddModelStateError(result.Errors);
 
