@@ -7,8 +7,8 @@ public interface IAuthService
 {
     IEnumerable<IdentityRole> Roles { get; }
     IEnumerable<IdentityUser> Users { get; }
-    Task<IdentityUser> GetOneUser(string userName);
-    Task<UserDtoForUpdate> GetOneUserForUpdate(string userName);
+    Task<IdentityUser> GetUser(string userName);
+    Task<UserDtoForUpdate> GetUserForUpdate(string userName);
     Task<IdentityResult> CreateUser(UserDtoForInsertion userDto);
     Task<IdentityResult> UpdateUser(UserDtoForUpdate userDto);
     Task<IdentityResult> DeleteUser(string userName);

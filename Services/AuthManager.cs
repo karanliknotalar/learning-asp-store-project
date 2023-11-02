@@ -21,14 +21,14 @@ public class AuthManager : IAuthService
     public IEnumerable<IdentityRole> Roles => _roleManager.Roles;
     public IEnumerable<IdentityUser> Users => _userManager.Users;
 
-    public async Task<IdentityUser> GetOneUser(string userName)
+    public async Task<IdentityUser> GetUser(string userName)
     {
         return await _userManager.FindByNameAsync(userName);
     }
 
-    public async Task<UserDtoForUpdate> GetOneUserForUpdate(string userName)
+    public async Task<UserDtoForUpdate> GetUserForUpdate(string userName)
     {
-        var user = await GetOneUser(userName);
+        var user = await GetUser(userName);
 
         if (user is null)
             throw new Exception($"{userName} user not found.");
@@ -61,7 +61,7 @@ public class AuthManager : IAuthService
 
     public async Task<IdentityResult> UpdateUser(UserDtoForUpdate userDto)
     {
-        var user = await GetOneUser(userDto.CurrentUserName!);
+        var user = await GetUser(userDto.CurrentUserName!);
         if (user is null)
             throw new Exception($"{userDto.CurrentUserName} user not found.");
 
@@ -90,7 +90,7 @@ public class AuthManager : IAuthService
 
     public async Task<IdentityResult> DeleteUser(string userName)
     {
-        var user = await GetOneUser(userName);
+        var user = await GetUser(userName);
         var result = await _userManager.DeleteAsync(user);
         if (!result.Succeeded)
             throw new Exception("User could not be deleted.");
@@ -99,7 +99,7 @@ public class AuthManager : IAuthService
 
     public async Task<IdentityResult> ResetPassword(ResetPasswordDto resetPasswordDto)
     {
-        var user = await GetOneUser(resetPasswordDto.UserName!);
+        var user = await GetUser(resetPasswordDto.UserName!);
         if (user is null)
             throw new Exception($"{resetPasswordDto.UserName} user not found.");
 

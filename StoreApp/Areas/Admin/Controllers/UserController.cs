@@ -42,7 +42,7 @@ public class UserController : Controller
 
     public async Task<IActionResult> Update([FromRoute(Name = "id")] string userName)
     {
-        var userDto = await _manager.AuthService.GetOneUserForUpdate(userName);
+        var userDto = await _manager.AuthService.GetUserForUpdate(userName);
         return View(userDto);
     }
 
@@ -60,7 +60,7 @@ public class UserController : Controller
             
         }
 
-        return View(await _manager.AuthService.GetOneUserForUpdate(userDto.CurrentUserName!));
+        return View(await _manager.AuthService.GetUserForUpdate(userDto.CurrentUserName!));
     }
 
     public async Task<IActionResult> Delete([FromRoute(Name = "id")] string userName)
