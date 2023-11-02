@@ -1,6 +1,7 @@
 ﻿using Entities.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
+using StoreApp.Infrastructure.Extensions;
 
 namespace StoreApp.Areas.Admin.Controllers;
 
@@ -32,13 +33,7 @@ public class UserController : Controller
     {
         var result = await _manager.AuthService.CreateUser(userDtoForInsertion);
 
-        if (result.Errors.Any())
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-        }
+        this.AddModelStateError(result.Errors);
 
         return result.Succeeded
             ? RedirectToAction("Index")
@@ -57,18 +52,12 @@ public class UserController : Controller
         if (ModelState.IsValid)
         {
             var result = await _manager.AuthService.UpdateUser(userDto);
+            
+            this.AddModelStateError(result.Errors);
+            
             if (result.Succeeded)
-            {
                 return RedirectToAction("Index");
-            }
-
-            if (result.Errors.Any())
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
+            
         }
 
         return View(await _manager.AuthService.GetOneUserForUpdate(userDto.CurrentUserName!));
@@ -77,13 +66,8 @@ public class UserController : Controller
     public async Task<IActionResult> Delete([FromRoute(Name = "id")] string userName)
     {
         var result = await _manager.AuthService.DeleteUser(userName);
-        if (result.Errors.Any())
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-        }
+
+        this.AddModelStateError(result.Errors);
 
         return RedirectToAction("Index");
     }
@@ -103,18 +87,10 @@ public class UserController : Controller
         {
             var result = await _manager.AuthService.ResetPassword(model);
 
-            if (result.Errors.Any())
-            {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
+            this.AddModelStateError(result.Errors);
 
             if (result.Succeeded)
-            {
                 return RedirectToAction("Index");
-            }
         }
 
         return View(new ResetPasswordDto()
