@@ -12,6 +12,7 @@ builder.Services.ConfigureSession();
 builder.Services.ConfigureRepositoryRegistration();
 builder.Services.ConfigureServiceRegistration();
 builder.Services.ConfigureRouting();
+builder.Services.ConfigureApplicationCookie();
 //Custom Extension End
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -25,7 +26,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthentication();
-app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseEndpoints(endpoint =>
 {

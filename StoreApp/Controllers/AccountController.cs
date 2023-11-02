@@ -1,4 +1,5 @@
 ﻿using Entities.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StoreApp.Models;
@@ -110,4 +111,9 @@ public class AccountController : Controller
 
         return View();
     }
+    
+    public IActionResult AccessDenied()
+    {
+        return View();
+    } 
 }

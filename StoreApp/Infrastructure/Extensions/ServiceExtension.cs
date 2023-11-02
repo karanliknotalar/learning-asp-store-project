@@ -16,7 +16,7 @@ public static class ServiceExtension
         {
             options.UseSqlite(configuration.GetConnectionString("connection"),
                 b => b.MigrationsAssembly("StoreApp"));
-            options.EnableSensitiveDataLogging(true);
+            options.EnableSensitiveDataLogging();
         });
     }
 
@@ -76,6 +76,18 @@ public static class ServiceExtension
             // options.LowercaseQueryStrings = false;
             options.LowercaseUrls = true;
             options.AppendTrailingSlash = false;
+        });
+    }
+
+    public static void ConfigureApplicationCookie(this IServiceCollection services)
+    {
+        services.ConfigureApplicationCookie(options =>
+        {
+            options.AccessDeniedPath = new PathString("/Account/AccessDenied"); // is Default Path
+            // options.LoginPath = new PathString("/Account/Login");
+            // options.LogoutPath = new PathString("/Account/Logout");
+            // options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+            // options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
         });
     }
 }

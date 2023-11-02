@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 
@@ -15,7 +16,7 @@ public class OrderController : Controller
         _cart = cart;
     }
 
-    //Get
+    [Authorize]
     public ViewResult Checkout()
     {
         if (!_cart.Lines.Any())
