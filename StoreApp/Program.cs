@@ -2,8 +2,11 @@ using StoreApp.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+// builder.Services.AddEndpointsApiExplorer();
 
 //Custom extension
 builder.Services.ConfigureDbContext(builder.Configuration);
@@ -42,6 +45,8 @@ app.UseEndpoints(endpoint =>
     );
 
     endpoint.MapRazorPages();
+
+    endpoint.MapControllers();
 });
 
 //Custom Extension
