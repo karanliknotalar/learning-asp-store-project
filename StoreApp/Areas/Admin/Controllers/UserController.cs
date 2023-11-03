@@ -33,7 +33,7 @@ public class UserController : Controller
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([FromForm] UserDtoForInsertion userDtoForInsertion)
     {
-        var result = await _manager.AuthService.CreateUser(userDtoForInsertion);
+        var result = await _manager.AuthService.CreateUserAsync(userDtoForInsertion);
 
         this.AddModelStateError(result.Errors);
 
@@ -44,7 +44,7 @@ public class UserController : Controller
 
     public async Task<IActionResult> Update([FromRoute(Name = "id")] string userName)
     {
-        var userDto = await _manager.AuthService.GetUserForUpdate(userName);
+        var userDto = await _manager.AuthService.GetUserForUpdateAsync(userName);
         return View(userDto);
     }
 
@@ -53,7 +53,7 @@ public class UserController : Controller
     {
         if (ModelState.IsValid)
         {
-            var result = await _manager.AuthService.UpdateUser(userDto);
+            var result = await _manager.AuthService.UpdateUserAsync(userDto);
 
             this.AddModelStateError(result.Errors);
 
@@ -61,13 +61,13 @@ public class UserController : Controller
                 return RedirectToAction("Index");
         }
 
-        return View(await _manager.AuthService.GetUserForUpdate(userDto.CurrentUserName!));
+        return View(await _manager.AuthService.GetUserForUpdateAsync(userDto.CurrentUserName!));
     }
 
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete([FromForm] UserDto userDto)
     {
-        var result = await _manager.AuthService.DeleteUser(userDto.UserName!);
+        var result = await _manager.AuthService.DeleteUserAsync(userDto.UserName!);
 
         this.AddModelStateError(result.Errors);
 
@@ -87,7 +87,7 @@ public class UserController : Controller
     {
         if (ModelState.IsValid)
         {
-            var result = await _manager.AuthService.ResetPassword(model);
+            var result = await _manager.AuthService.ResetPasswordAsync(model);
 
             this.AddModelStateError(result.Errors);
 

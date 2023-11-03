@@ -21,7 +21,7 @@ public class AuthManager : IAuthService
     public IEnumerable<IdentityRole> Roles => _roleManager.Roles;
     public IEnumerable<IdentityUser> Users => _userManager.Users;
 
-    public async Task<IdentityUser> GetUser(string userName)
+    public async Task<IdentityUser> GetUserAsync(string userName)
     {
         var user = await _userManager.FindByNameAsync(userName);
         if (user is null)
@@ -29,9 +29,16 @@ public class AuthManager : IAuthService
         return user;
     }
 
-    public async Task<UserDtoForUpdate> GetUserForUpdate(string userName)
+    public async Task<IList<string>> GetUserRolesAsync(string userName)
     {
-        var user = await GetUser(userName);
+        var user = await GetUserAsync(userName);
+        var roles = await _userManager.GetRolesAsync(user);
+        return roles;
+    }
+
+    public async Task<UserDtoForUpdate> GetUserForUpdateAsync(string userName)
+    {
+        var user = await GetUserAsync(userName);
 
         var userDto = _mapper.Map<UserDtoForUpdate>(user);
         userDto.Roles = new HashSet<string>(Roles.Select(r => r.Name).ToList());
@@ -41,7 +48,7 @@ public class AuthManager : IAuthService
         return userDto;
     }
 
-    public async Task<IdentityResult> CreateUser(UserDtoForInsertion userDto)
+    public async Task<IdentityResult> CreateUserAsync(UserDtoForInsertion userDto)
     {
         var user = _mapper.Map<IdentityUser>(userDto);
         var result = await _userManager.CreateAsync(user, userDto.Password);
@@ -49,7 +56,7 @@ public class AuthManager : IAuthService
         if (userDto.Roles.Any())
         {
             var roleResul = await _userManager.AddToRolesAsync(user, userDto.Roles);
-            
+
             if (!roleResul.Succeeded)
                 throw new Exception("System have problems with roles");
         }
@@ -57,10 +64,10 @@ public class AuthManager : IAuthService
         return result;
     }
 
-    public async Task<IdentityResult> UpdateUser(UserDtoForUpdate userDto)
+    public async Task<IdentityResult> UpdateUserAsync(UserDtoForUpdate userDto)
     {
-        var user = await GetUser(userDto.CurrentUserName!);
-        
+        var user = await GetUserAsync(userDto.CurrentUserName!);
+
         user.UserName = userDto.UserName;
         user.Email = userDto.Email;
         user.PhoneNumber = userDto.PhoneNumber;
@@ -84,23 +91,29 @@ public class AuthManager : IAuthService
         return updateResult;
     }
 
-    public async Task<IdentityResult> DeleteUser(string userName)
+    public async Task<IdentityResult> DeleteUserAsync(string userName)
     {
-        var user = await GetUser(userName);
+        var user = await GetUserAsync(userName);
         var result = await _userManager.DeleteAsync(user);
         if (!result.Succeeded)
             throw new Exception("User could not be deleted.");
         return result;
     }
 
-    public async Task<IdentityResult> ResetPassword(ResetPasswordDto resetPasswordDto)
+    public async Task<IdentityResult> ResetPasswordAsync(ResetPasswordDto resetPasswordDto)
     {
-        var user = await GetUser(resetPasswordDto.UserName!);
+        var user = await GetUserAsync(resetPasswordDto.UserName!);
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
         if (token is null)
             throw new Exception($"{resetPasswordDto.UserName} user isin password reset token could not be created");
 
         return await _userManager.ResetPasswordAsync(user, token, resetPasswordDto.Password);
+    }
+
+    public async Task<bool> UserIsInRoleAsync(string userName, string role)
+    {
+        var user = await GetUserAsync(userName);
+        return await _userManager.IsInRoleAsync(user, role);
     }
 }

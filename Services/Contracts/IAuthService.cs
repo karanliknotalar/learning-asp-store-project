@@ -7,10 +7,12 @@ public interface IAuthService
 {
     IEnumerable<IdentityRole> Roles { get; }
     IEnumerable<IdentityUser> Users { get; }
-    Task<IdentityUser> GetUser(string userName);
-    Task<UserDtoForUpdate> GetUserForUpdate(string userName);
-    Task<IdentityResult> CreateUser(UserDtoForInsertion userDto);
-    Task<IdentityResult> UpdateUser(UserDtoForUpdate userDto);
-    Task<IdentityResult> DeleteUser(string userName);
-    Task<IdentityResult> ResetPassword(ResetPasswordDto resetPasswordDto);
+    Task<IdentityUser> GetUserAsync(string userName);
+    Task<IList<string>> GetUserRolesAsync(string userName);
+    Task<UserDtoForUpdate> GetUserForUpdateAsync(string userName);
+    Task<IdentityResult> CreateUserAsync(UserDtoForInsertion userDto);
+    Task<IdentityResult> UpdateUserAsync(UserDtoForUpdate userDto);
+    Task<IdentityResult> DeleteUserAsync(string userName);
+    Task<IdentityResult> ResetPasswordAsync(ResetPasswordDto resetPasswordDto);
+    Task<bool> UserIsInRoleAsync(string userName, string role);
 }
