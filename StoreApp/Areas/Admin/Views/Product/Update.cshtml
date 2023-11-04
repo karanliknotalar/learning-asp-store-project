@@ -32,6 +32,13 @@
                     <input class="form-control" asp-for="Price">
                 </div>
                 <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input asp-for="ShowCase" type="checkbox" class="form-check-input status"
+                               checked="@Model.ShowCase"/>
+                        <label class="form-check-label" asp-for="ShowCase"></label>
+                    </div>
+                </div>
+                <div class="mb-3">
                     <label asp-for="ImageUrl">Select Image</label>
                     <input class="form-control" type="file" id="ImageUrl" name="file">
                 </div>
@@ -48,7 +55,7 @@
             </form>
         </div>
         <div class="col-6">
-            <img class="w-100 rounded shadow" src="@Model.ImageUrl" alt=""/>
+            <img class="w-100 rounded shadow" src="@Model.ImageUrl" alt="@Model.ProductName"/>
         </div>
     </div>
 </div>

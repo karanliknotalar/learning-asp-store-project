@@ -17,6 +17,5 @@ public record ProductDto
     [Required(ErrorMessage = "price name is not empty.")]
     [Range(0, int.MaxValue)]
     public decimal Price { get; init; }
-
-    public bool ShowCase { get; init; }
+    
 }

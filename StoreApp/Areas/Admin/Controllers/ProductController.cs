@@ -1,8 +1,11 @@
 ﻿using Entities.Dtos;
+using Entities.Models;
+using Entities.RequestParameters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Services.Contracts;
+using StoreApp.Models;
 
 namespace StoreApp.Areas.Admin.Controllers;
 
@@ -17,10 +20,20 @@ public class ProductController : Controller
         _manager = manager;
     }
 
-    public IActionResult Index()
+    public IActionResult Index([FromQuery] ProductRequestParameters parameters)
     {
-        var product = _manager.ProductServices.GetAllProduct();
-        return View(product);
+        var products = _manager.ProductServices.GetAllProductsWithDetails(parameters);
+        var pagination = new Pagination
+        {
+            CurrentPage = parameters.PageNumber,
+            ItemsPerPage = parameters.PageSize,
+            TotalItems = _manager.ProductServices.GetAllProduct().Count()
+        };
+        return View(new ProductListViewModel
+        {
+            Products = products,
+            Pagination = pagination
+        });
     }
 
     public IActionResult Create()
@@ -60,7 +73,7 @@ public class ProductController : Controller
     }
 
     [HttpPost, ValidateAntiForgeryToken]
-    public async Task<IActionResult> Update([FromForm] ProductDtoForInsertion productDto, [FromForm] IFormFile? file)
+    public async Task<IActionResult> Update([FromForm] ProductDtoForUpdate productDto, [FromForm] IFormFile? file)
     {
         if (ModelState.IsValid)
         {
@@ -78,10 +91,18 @@ public class ProductController : Controller
             _manager.ProductServices.UpdateProduct(productDto);
             return RedirectToAction("Index");
         }
+
         var product = _manager.ProductServices.GetOneProductUpdate(productDto.ProductId);
         if (product is null) throw new Exception("Product not found!");
         ViewBag.Categories = SelectListForCategory((int)productDto.CategoryId!);
         return View(product);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult SwitchStatus([FromBody] ProductDtoForUpdate update)
+    {
+        _manager.ProductServices.SwitchProductShowCase(update);
+        return Json(new { status = "ok" });
     }
 
     public IActionResult Delete([FromRoute(Name = "id")] int id)

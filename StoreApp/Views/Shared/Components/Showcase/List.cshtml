@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Product>
+
+<div class="mt-5 text-center border-bottom">
+    <h6 class="display-6">Products (ShowCase)</h6>
+</div>
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-2 my-3">
+            <div class="card" >
+                <img class="card-img-top" src="@product.ImageUrl" alt="@product.ProductName">
+                <div class="card-body">
+                    <h5 class="card-title">@product.ProductName</h5>
+                    <p class="card-text">@product.Price</p>
+                    <a asp-action="Update" asp-controller="Product" asp-route-id="@product.ProductId"
+                       class="btn btn-primary">Edit</a>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+
+                        <div class="form-check form-switch">
+                            <input type="hidden" name="productId" value="@product.ProductId" />
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                   checked="@product.ShowCase" disabled>
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Showcase</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

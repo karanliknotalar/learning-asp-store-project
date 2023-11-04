@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+﻿@model ProductListViewModel
 
 
 <div class="text-center my-3">
@@ -17,60 +17,115 @@
     </a>
 </div>
 
-<table class="table table-striped table-hover">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Image</th>
-        <th>Price</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var product in Model)
-    {
-        <tr>
-            <td>@product.ProductId</td>
-            <td>@product.ProductName</td>
-            <td>
-                <img class="rounded border border-light" src="@product.ImageUrl" alt="@product.ProductName" width="60"/>
-            </td>
-            <td>@product.Price.ToString("C")</td>
-            <td>
-                <div class="btn-group">
-                    <a class="btn btn-warning"
-                       asp-action="Update"
-                       asp-route-id="@product.ProductId"
-                       tool-message="Edit this product.">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a class="btn btn-info" target="_blank"
-                       asp-area=""
-                       asp-controller="Product"
-                       asp-action="Get"
-                       asp-route-id="@product.ProductId"
-                       tool-message="View this product.">
-                        <i class="fa fa-search"></i>
-                    </a>
-                    <a class="btn btn-danger"
-                       asp-action="Delete"
-                       asp-route-id="@product.ProductId"
-                       tool-message="Delete this product.">
-                        <i class="fa fa-remove"></i>
-                    </a>
-                </div>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-md-3">
+        @await Component.InvokeAsync("CategoriesMenu")
+        @await Component.InvokeAsync("ProductFilterMenu")
+        <div products="" number="4" class="mt-4"></div>
+    </div>
+    <div class="col-md-9">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Showcase</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr productId="@product.ProductId">
+                    <td>@product.ProductId</td>
+                    <td>@product.ProductName</td>
+                    <td>
+                        <img class="rounded border border-light" src="@product.ImageUrl" alt="@product.ProductName" width="60"/>
+                    </td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input status"
+                                   checked="@product.ShowCase"/>
+                        </div>
+                    </td>
+                    <td>@product.Price.ToString("C")</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-warning"
+                               asp-action="Update"
+                               asp-route-id="@product.ProductId"
+                               tool-message="Edit this product.">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a class="btn btn-info" target="_blank"
+                               asp-area=""
+                               asp-controller="Product"
+                               asp-action="Get"
+                               asp-route-id="@product.ProductId"
+                               tool-message="View this product.">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <a class="btn btn-danger"
+                               asp-action="Delete"
+                               asp-route-id="@product.ProductId"
+                               tool-message="Delete this product.">
+                                <i class="fa fa-remove"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <div class="text-center mt-5">
+            <div class="btn-group"
+                 page-action="Index"
+                 btn-class-enabled="true"
+                 btn-class="btn btn-sm"
+                 btn-class-style-normal="btn-outline-secondary"
+                 btn-class-style-selected="btn-secondary"
+                 pagination="@Model.Pagination">
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @section js
 {
     <script type="text/javascript">
-       $(document).ready(function() {
-           $('[data-bs-toggle="tooltip"]').tooltip();
-       });
-   </script>
+        $(document).ready(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+    
+        $(document).ready(function () {
+    
+            $(".status").on('click', function () {
+               
+                let productId = $(this).closest("tr").attr('productId');
+                let status = $(this).is(':checked');
+                let token = $('@Html.AntiForgeryToken()').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "Product/SwitchStatus",
+                    data: JSON.stringify({
+                        'ProductId': productId,
+                        'ShowCase': status,
+                    }),
+                    headers: {"RequestVerificationToken": token},
+                    contentType: "application/json",
+                    success: function (response) {
+                        console.log(response);
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+</script>
 }

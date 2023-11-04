@@ -59,6 +59,14 @@ namespace Services
             return _mapper.Map<ProductDtoForUpdate>(product);
         }
 
+        public void SwitchProductShowCase(ProductDtoForUpdate update, bool trackChanges = false)
+        {
+            var product = _manager.Product.GetOneProduct(update.ProductId, trackChanges);
+            product!.ShowCase = update.ShowCase;
+            _manager.Product.UpdateProduct(product);
+            _manager.Save();
+        }
+
         public void CreateProduct(ProductDtoForInsertion productDto)
         {
             var product = _mapper.Map<Product>(productDto);
@@ -72,7 +80,7 @@ namespace Services
             _manager.Save();
         }
 
-        public void UpdateProduct(ProductDtoForInsertion productDto)
+        public void UpdateProduct(ProductDtoForUpdate productDto)
         {
             var product = _mapper.Map<Product>(productDto);
             _manager.Product.UpdateProduct(product);

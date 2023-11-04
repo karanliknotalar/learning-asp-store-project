@@ -3,7 +3,7 @@ using Services.Contracts;
 
 namespace StoreApp.Components;
 
-public class ShowcaseViewComponent: ViewComponent
+public class ShowcaseViewComponent : ViewComponent
 {
     private readonly IServiceManager _manager;
 
@@ -12,9 +12,11 @@ public class ShowcaseViewComponent: ViewComponent
         _manager = manager;
     }
 
-    public IViewComponentResult Invoke()
+    public IViewComponentResult Invoke(string views = "Default")
     {
         var products = _manager.ProductServices.GetShowCaseProduct();
-        return View(products);
+        return views.Equals("Default")
+            ? View(products)
+            : View("List", products);
     }
 }
