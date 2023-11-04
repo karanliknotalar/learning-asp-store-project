@@ -37,9 +37,13 @@ public class UserController : Controller
 
         this.AddModelStateError(result.Errors);
 
-        return result.Succeeded
-            ? RedirectToAction("Index")
-            : View();
+        if (result.Succeeded)
+        {
+            TempData["success"] = "The user has been created successfully.";
+            return RedirectToAction("Index");
+        }
+
+        return View();
     }
 
     public async Task<IActionResult> Update([FromRoute(Name = "id")] string userName)
@@ -58,7 +62,10 @@ public class UserController : Controller
             this.AddModelStateError(result.Errors);
 
             if (result.Succeeded)
+            {
+                TempData["success"] = "The user has been updated successfully.";
                 return RedirectToAction("Index");
+            }
         }
 
         return View(await _manager.AuthService.GetUserForUpdateAsync(userDto.CurrentUserName!));
@@ -70,6 +77,8 @@ public class UserController : Controller
         var result = await _manager.AuthService.DeleteUserAsync(userDto.UserName!);
 
         this.AddModelStateError(result.Errors);
+        if (result.Succeeded)
+            TempData["success"] = "The user has been updated successfully.";
 
         return RedirectToAction("Index");
     }
@@ -92,7 +101,10 @@ public class UserController : Controller
             this.AddModelStateError(result.Errors);
 
             if (result.Succeeded)
+            {
+                TempData["success"] = "The user has been updated successfully.";
                 return RedirectToAction("Index");
+            }
         }
 
         return View(new ResetPasswordDto()

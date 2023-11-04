@@ -57,6 +57,7 @@ public class ProductController : Controller
             productDto.ImageUrl = string.Concat("/images/", file.FileName);
 
             _manager.ProductServices.CreateProduct(productDto);
+            TempData["success"] = "The product has been created successfully.";
             return RedirectToAction("Index");
         }
 
@@ -89,6 +90,7 @@ public class ProductController : Controller
                 : GetProductImage(productDto.ProductId);
 
             _manager.ProductServices.UpdateProduct(productDto);
+            TempData["success"] = "The product has been updated successfully.";
             return RedirectToAction("Index");
         }
 
@@ -111,6 +113,7 @@ public class ProductController : Controller
         if (product is not null)
         {
             _manager.ProductServices.DeleteProduct(product);
+            TempData["success"] = "The product has been deleted successfully.";
         }
 
         return RedirectToAction("Index");
