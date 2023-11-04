@@ -28,6 +28,11 @@ namespace Services
             return _manager.Product.GetAllProductsWithDetails(parameters);
         }
 
+        public IEnumerable<Product>? GetAllProductsWithCategories(bool trackChanges = false)
+        {
+            return _manager.Product.GetAllProductsWithCategories(trackChanges);
+        }
+
         public IEnumerable<Product> GetShowCaseProduct(bool trackChanges)
         {
             return _manager.Product.GetShowCaseProduct(trackChanges);

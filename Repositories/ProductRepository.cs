@@ -1,6 +1,7 @@
 using Repositories.Contracts;
 using Entities.Models;
 using Entities.RequestParameters;
+using Microsoft.EntityFrameworkCore;
 using Repositories.Extensions;
 
 namespace Repositories;
@@ -21,6 +22,27 @@ public sealed class ProductRepository : RepositoryBase<Product>, IProductReposit
             .FilteredBySearchTerm(param?.SearchTerm)
             .FilteredByPrice(param?.MinPrice, param?.MaxPrice, param!.IsValidPrice)
             .ToPaginate(param.PageNumber, param.PageSize)!;
+    }
+
+    public IQueryable<Product>? GetAllProductsWithCategories(bool trackChanges)
+    {
+        return _context.Products?
+            .Include(p => p.Category)
+            .Select(p => new Product
+            {
+                ProductId = p.ProductId,
+                ProductName = p.ProductName,
+                CategoryId = p.CategoryId,
+                Summary = p.Summary,
+                ImageUrl = p.ImageUrl,
+                Price = p.Price,
+                ShowCase = p.ShowCase,
+                Category = new Category
+                {
+                    CategoryId = p.Category!.CategoryId,
+                    CategoryName = p.Category!.CategoryName
+                }
+            });
     }
 
     public IQueryable<Product> GetShowCaseProduct(bool trackChanges)

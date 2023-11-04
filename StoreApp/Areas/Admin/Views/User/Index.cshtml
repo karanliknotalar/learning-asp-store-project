@@ -7,9 +7,12 @@
 </div>
 
 <div class="d-flex justify-content-end">
-    <a class="btn btn-outline-success" asp-controller="User" asp-action="Create" asp-area="Admin">
+    <a class="btn btn-outline-success"
+       asp-controller="User"
+       asp-action="Create"
+       asp-area="Admin"
+       tool-message="Create a new User">
         <i class="fa fa-plus-circle"></i>
-        Create
     </a>
 </div>
 
@@ -28,19 +31,29 @@
         <tr>
             <td>@user.Id</td>
             <td>@user.UserName</td>
-            <td user-name="@user.UserName" user-role="" ></td>
+            <td user-name="@user.UserName" user-role=""></td>
             <td>
                 <div class="btn-group">
-                    <a class="btn btn-warning rounded-start" asp-action="Update" asp-route-id="@user.UserName">
-                        <i class="fa fa-edit"></i> Update
+                    <a class="btn btn-warning rounded-start"
+                       asp-action="Update"
+                       asp-route-id="@user.UserName"
+                       tool-message="Update this user.">
+                        <i class="fa fa-edit"></i>
                     </a>
-                    <a class="btn btn-info rounded-0" asp-action="ResetPassword" asp-route-id="@user.UserName">
-                        <i class="fa fa-key"></i> Reset Pass
+                    <a class="btn btn-info rounded-0"
+                       asp-action="ResetPassword"
+                       asp-route-id="@user.UserName"
+                       tool-message="Reset this user password.">
+                        <i class="fa fa-key"></i>
                     </a>
                     <form asp-action="Delete" method="post">
                         <input hidden name="UserName" value="@user.UserName"/>
-                        <button type="submit" class="btn btn-danger rounded-start-0 rounded-end" asp-action="Delete" asp-route-id="@user.UserName">
-                            <i class="fa fa-remove"></i> Delete
+                        <button type="submit"
+                                class="btn btn-danger rounded-start-0 rounded-end"
+                                asp-action="Delete"
+                                asp-route-id="@user.UserName"
+                                tool-message="Delete this user.">
+                            <i class="fa fa-remove"></i>
                         </button>
                     </form>
                 </div>
@@ -49,3 +62,12 @@
     }
     </tbody>
 </table>
+
+@section js
+{
+    <script type="text/javascript">
+       $(document).ready(function() {
+           $('[data-bs-toggle="tooltip"]').tooltip();
+       });
+   </script>
+}

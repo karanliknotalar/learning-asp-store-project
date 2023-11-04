@@ -17,6 +17,7 @@ public class ProductsController : ControllerBase
     [HttpGet]
     public IActionResult GetAllProducts()
     {
-        return Ok(_manager.ProductServices.GetAllProduct());
+        var res = _manager.ProductServices.GetAllProductsWithCategories();
+        return Ok(res);
     }
 }

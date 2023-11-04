@@ -16,6 +16,9 @@ public static class ServiceExtension
         {
             options.UseSqlite(configuration.GetConnectionString("connection"),
                 b => b.MigrationsAssembly("StoreApp"));
+            // options.UseMySQL(configuration.GetConnectionString("connectionMysql"),
+            //     b => b.MigrationsAssembly("StoreApp"));
+            
             options.EnableSensitiveDataLogging();
         });
     }

@@ -7,6 +7,7 @@
                asp-area="Admin"
                asp-controller="Dashboard"
                asp-action="Index">
+                <i class="fa-solid fa-user-gear"></i>
                 Admin
             </a>
         </li>
@@ -17,6 +18,7 @@
            asp-controller="Account"
            asp-route-returnUrl="@Context.Request.PathAndQuery()"
            asp-action="Logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
             Logout (Hello <b>@User.Identity.Name</b>)
         </a>
     </li>
@@ -29,6 +31,7 @@ else
            asp-controller="Account"
            asp-route-returnUrl="@Context.Request.PathAndQuery()"
            asp-action="Login">
+            <i class="fa-solid fa-right-to-bracket"></i>
             Login
         </a>
     </li>

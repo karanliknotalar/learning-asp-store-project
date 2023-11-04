@@ -20,6 +20,9 @@ public class AccountController : Controller
     // GET
     public IActionResult Login([FromQuery(Name = "ReturnUrl")] string returnUrl = "/")
     {
+        if (User.Identity is { IsAuthenticated: true })
+            return Redirect(returnUrl);
+
         return View(new LoginModel
         {
             ReturnUrl = returnUrl
@@ -57,9 +60,7 @@ public class AccountController : Controller
     public IActionResult Register()
     {
         if (User.Identity is { IsAuthenticated: true })
-        {
             return Redirect("/");
-        }
 
         return View();
     }
@@ -111,9 +112,9 @@ public class AccountController : Controller
 
         return View();
     }
-    
+
     public IActionResult AccessDenied()
     {
         return View();
-    } 
+    }
 }

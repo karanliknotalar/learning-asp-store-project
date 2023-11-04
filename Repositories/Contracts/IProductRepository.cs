@@ -7,6 +7,7 @@ public interface IProductRepository : IRepositoryBase<Product>
 {
     IQueryable<Product> GetAllProducts(bool trackChanges);
     IQueryable<Product> GetAllProductsWithDetails(ProductRequestParameters? parameters);
+    IQueryable<Product>? GetAllProductsWithCategories(bool trackChanges);
     IQueryable<Product> GetShowCaseProduct(bool trackChanges);
     Product? GetOneProduct(int id, bool trackChanges);
     void CreateProduct(Product product);
