@@ -12,7 +12,7 @@
                 <img class="card-img-top" src="@product.ImageUrl" alt="@product.ProductName">
                 <div class="card-body">
                     <h5 class="card-title">@product.ProductName</h5>
-                    <p class="card-text">@product.Price</p>
+                    <p class="card-text">@product.Price.ToString("C")</p>
                     <a asp-action="Update" asp-controller="Product" asp-route-id="@product.ProductId"
                        class="btn btn-primary">Edit</a>
                 </div>

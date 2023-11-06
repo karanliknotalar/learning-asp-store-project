@@ -14,10 +14,22 @@ public static class ServiceExtension
     {
         services.AddDbContext<RepositoryContext>(options =>
         {
-            options.UseSqlite(configuration.GetConnectionString("connection"),
-                b => b.MigrationsAssembly("StoreApp"));
-            // options.UseMySQL(configuration.GetConnectionString("connectionMysql"),
+            //Sql Lite
+            // options.UseSqlite(configuration.GetConnectionString("sqlConnection"),
             //     b => b.MigrationsAssembly("StoreApp"));
+            
+            //SqlServer
+            
+            // Mic Sql Server
+            // options.UseSqlServer(configuration.GetConnectionString("mssqlConnection"),
+            //     b => b.MigrationsAssembly("StoreApp"));
+            //
+            
+            // // Polemo MySql Sql Server
+            string connectionString = configuration.GetConnectionString("mysqlConnection");
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), 
+                b => b.MigrationsAssembly("StoreApp"));
+            
             
             options.EnableSensitiveDataLogging();
         });

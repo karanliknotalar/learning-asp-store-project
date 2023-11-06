@@ -23,6 +23,7 @@ namespace StoreApp.Controllers
                 ItemsPerPage = parameters.PageSize,
                 TotalItems = _manager.ProductServices.GetAllProduct().Count()
             };
+            ViewData["title"] = "Products";
             return View(new ProductListViewModel
             {
                 Products = products,
@@ -33,6 +34,7 @@ namespace StoreApp.Controllers
         public IActionResult Get([FromRoute(Name = "id")] int id)
         {
             var product = _manager.ProductServices.GetOneProduct(id);
+            ViewData["title"] = product?.ProductName;
             return View(product);
         }
     }

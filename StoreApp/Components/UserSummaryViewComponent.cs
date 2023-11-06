@@ -14,6 +14,8 @@ public class UserSummaryViewComponent : ViewComponent
 
     public string Invoke()
     {
-        return _manager.AuthService.Users.Count().ToString();
+        var count = _manager.AuthService.Users.Count().ToString();
+        _manager.AuthService.Dispose();
+        return count;
     }
 }

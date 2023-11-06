@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 
 namespace Services;
@@ -41,7 +42,7 @@ public class AuthManager : IAuthService
         var user = await GetUserAsync(userName);
 
         var userDto = _mapper.Map<UserDtoForUpdate>(user);
-        userDto.Roles = new HashSet<string>(Roles.Select(r => r.Name).ToList());
+        userDto.Roles = new HashSet<string>(_roleManager.Roles.Select(r => r.Name).ToList());
         userDto.UserRoles = new HashSet<string>(await _userManager.GetRolesAsync(user));
         userDto.CurrentUserName = user.UserName;
 
@@ -107,7 +108,6 @@ public class AuthManager : IAuthService
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
         if (token is null)
             throw new Exception($"{resetPasswordDto.UserName} user isin password reset token could not be created");
-
         return await _userManager.ResetPasswordAsync(user, token, resetPasswordDto.Password);
     }
 
@@ -115,5 +115,11 @@ public class AuthManager : IAuthService
     {
         var user = await GetUserAsync(userName);
         return await _userManager.IsInRoleAsync(user, role);
+    }
+
+    public void Dispose()
+    {
+        _userManager.Dispose();
+        _roleManager.Dispose();
     }
 }
