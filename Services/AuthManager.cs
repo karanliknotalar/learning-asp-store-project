@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Entities.Dtos;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 
 namespace Services;
@@ -116,10 +115,5 @@ public class AuthManager : IAuthService
         var user = await GetUserAsync(userName);
         return await _userManager.IsInRoleAsync(user, role);
     }
-
-    public void Dispose()
-    {
-        _userManager.Dispose();
-        _roleManager.Dispose();
-    }
+    
 }

@@ -15,5 +15,4 @@ public interface IAuthService
     Task<IdentityResult> DeleteUserAsync(string userName);
     Task<IdentityResult> ResetPasswordAsync(ResetPasswordDto resetPasswordDto);
     Task<bool> UserIsInRoleAsync(string userName, string role);
-    void Dispose();
 }

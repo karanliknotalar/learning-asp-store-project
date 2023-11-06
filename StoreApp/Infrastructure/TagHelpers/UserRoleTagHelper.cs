@@ -23,7 +23,7 @@ public class UserRoleTagHelper : TagHelper
         // throw new Exception("username:" + UserName);
         if (UserName is not null)
         {
-            var roles = _manager.AuthService.Roles.Select(r=>r.Name).ToList();
+            var roles = _manager.AuthService.Roles.Select(r => r.Name).ToList();
             
             if (roles.Any())
             {
