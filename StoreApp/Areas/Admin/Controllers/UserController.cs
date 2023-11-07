@@ -17,7 +17,7 @@ public class UserController : Controller
         _manager = manager;
     }
 
-    public IActionResult Index()
+    public  IActionResult Index()
     {
         return View(_manager.AuthService.Users);
     }
