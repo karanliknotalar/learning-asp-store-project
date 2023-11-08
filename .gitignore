@@ -482,3 +482,4 @@ $RECYCLE.BIN/
 *.db-wal
 **/.idea/
 StoreProductDb.db
+StoreApp/Migrations
